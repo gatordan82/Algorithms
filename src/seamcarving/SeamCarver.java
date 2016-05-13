@@ -1,4 +1,4 @@
-
+package seamcarving;
 
 import java.awt.Color;
 
@@ -240,7 +240,6 @@ public class SeamCarver
 	public void removeHorizontalSeam(int[] seam)
 	{
 		checkValidSeam(seam);
-		if (height <= 1) throw new IllegalArgumentException();
 		if (!isTransposed) transposePicAndEnergy();
 		removeSeam(seam, width, height);
 		width--;
@@ -249,18 +248,13 @@ public class SeamCarver
 	private void checkValidSeam(int[] seam)
 	{
 		if (seam.length != height) throw new IllegalArgumentException();
-		for (int y = 0; y < height; y++)
-		{
-			if (seam[y] < 0 || seam[y] > width) throw new IllegalArgumentException();
-			if (y > 0 && Math.abs(seam[y] - seam[y - 1]) > 1) throw new IllegalArgumentException();
-		}
+		
 		
 	}
 	
 	public void removeVerticalSeam(int[] seam)
 	{
 		checkValidSeam(seam);
-		if (width <= 1) throw new IllegalArgumentException();
 		if (isTransposed) transposePicAndEnergy();
 		removeSeam(seam, width, height);
 		width--;

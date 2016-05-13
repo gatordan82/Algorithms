@@ -1,4 +1,4 @@
-
+package wordnet;
 
 //import edu.princeton.cs.algs4.Bag;
 import edu.princeton.cs.algs4.BreadthFirstDirectedPaths;
@@ -11,30 +11,16 @@ public class SAP
 {
 	private final int infinity = Integer.MAX_VALUE;
 	private Digraph dg;
-//	private int[] lengthV;
-//	private int[] lengthW;
-//	private Bag<Integer> valsUpdated;
 	
 	public SAP(Digraph G)
 	{
 		if (G == null) throw new NullPointerException();
 		
 		dg = new Digraph(G);
-//		for (int i = 0; i < V; i++)
-//		{
-//			lengthV[i] = -1;
-//			lengthW[i] = -1;
-//		}
 	}
 	
 	public int length(int v, int w)
 	{
-//		if (v == null || w == null) throw new NullPointerException();
-//		for (int i : valsUpdated)
-//		{
-//			lengthV[i] = -1;
-//			lengthW[i] = -1;
-//		}
 		int len = infinity;
 		
 		BreadthFirstDirectedPaths bfsV = new BreadthFirstDirectedPaths(dg, v);
@@ -111,16 +97,7 @@ public class SAP
 			In in = new In(args[0]);
 			Digraph G = new Digraph(in);
 			SAP sap = new SAP(G);
-//			
-//			Stack<Integer> v = new Stack<Integer>();
-//			Stack<Integer> w = new Stack<Integer>();
-//			v.push(3);
-//			v.push(5);
-//			w.push(9);
-//			int length = sap.length(v, w);
-//			int ancestor = sap.ancestor(v, w);
-//			StdOut.printf("length = %d, ancestor = %d\n", length, ancestor);
-//			
+
 			while (!StdIn.isEmpty()) 
 			{
 				int v = StdIn.readInt();

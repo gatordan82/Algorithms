@@ -1,4 +1,7 @@
+package wordnet;
 
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.StdOut;
 
 public class Outcast
 {
@@ -24,11 +27,12 @@ public class Outcast
 				if (nounJ != nounI)
 					dist += wn.distance(nounI,  nounJ);
 			}
-			if (dist >= outcastDistance)
+			if (dist > outcastDistance)
 			{
 				outcastDistance = dist;
 				outcast = nounI;
 			}
+			dist = 0;
 		}
 		
 		return outcast;
@@ -36,8 +40,14 @@ public class Outcast
 	
 	public static void main(String[] args)
 	{
-		// TODO Auto-generated method stub
-
+		WordNet wordnet = new WordNet(args[0], args[1]);
+		Outcast outcast = new Outcast(wordnet);
+		for (int t = 2; t < args.length; t++) 
+		{
+			In in = new In(args[t]);
+			String[] nouns = in.readAllStrings();
+			StdOut.println(args[t] + ": " + outcast.outcast(nouns));
+		}
 	}
 
 }
