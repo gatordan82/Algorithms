@@ -29,12 +29,14 @@ public class BaseballElimination
 		
 		private Team(String[] schedule, String[] teams)
 		{
-			wins      = Integer.parseInt(schedule[0]);
-			losses    = Integer.parseInt(schedule[1]);
-			remaining = Integer.parseInt(schedule[2]);
+			wins      = Integer.parseInt(schedule[1]);
+			losses    = Integer.parseInt(schedule[2]);
+			remaining = Integer.parseInt(schedule[3]);
+			
+			against = new LinearProbingHashST<String, Integer>();
 			
 			for (int i = 0; i < N; i++)
-				against.put(teams[i], Integer.parseInt(schedule[i + 3]));
+				against.put(teams[i], Integer.parseInt(schedule[i + 4]));
 		}
 	}
 	
@@ -48,11 +50,12 @@ public class BaseballElimination
 		int j = 0;
 		while (!in.isEmpty())
 		{
-			statLines[j] = in.readLine().split(" ");
+			statLines[j] = in.readLine().trim().split("\\s+");
 			teamNames[j] = statLines[j][0];
 			j++;
 		}
 		
+		teams = new LinearProbingHashST<String, Team>();
 		for (int i = 0; i < N; i++)
 			teams.put(teamNames[i], new Team(statLines[i], teamNames));
 	}
