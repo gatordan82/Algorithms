@@ -43,12 +43,10 @@ public class BaseballElimination
 		remaining = new int[N];
 		against   = new int[N][N];
 		
-		int i = 0;
-		String[] statLine = new String[N + 4];
-		
+		int i = 0;		
 		while (!in.isEmpty())
 		{
-			statLine = in.readLine().trim().split("\\s+");
+			String[] statLine = in.readLine().trim().split("\\s+");
 			teamNames.put(statLine[0], i);
 			wins[i]      = Integer.parseInt(statLine[1]);
 			losses[i]    = Integer.parseInt(statLine[2]);
@@ -87,7 +85,7 @@ public class BaseballElimination
 	 * 
 	 * @return iterable list of team names
 	 */
-	public Iterable<String> team()
+	public Iterable<String> teams()
 	{
 		return teamNames.keys();
 	}
@@ -224,7 +222,7 @@ public class BaseballElimination
 		
 		if (isTriviallyEliminated(x))
 		{
-			for (String t : team())
+			for (String t : teams())
 			{
 				int i = getTeamIndex(t);
 				if (i != x && wins[x] + remaining[x] < wins[i])
@@ -238,10 +236,10 @@ public class BaseballElimination
 			buildScheduleNetwork(x);
 
 		FordFulkerson ff = new FordFulkerson(schedule, source, sink);
-		if (ff.inCut(sink)) return cert;
+		if (ff.value() == totalRemaining) return null;
 		else
-			for (String t : team())
-				if (t != team)
+			for (String t : teams())
+				if (!t.equals(team))
 				{
 					int i = getTeamIndex(t);
 					int vertex = N * (N - 1) / 2 + i;
@@ -258,7 +256,7 @@ public class BaseballElimination
 	public static void main(String[] args)
 	{
 		BaseballElimination division = new BaseballElimination(args[0]);
-		for (String team : division.team())
+		for (String team : division.teams())
 		{
 //			System.out.println(team + " has " + division.wins(team) + " wins.");
 			if (division.isEliminated(team))
@@ -273,6 +271,8 @@ public class BaseballElimination
 			else
 			{
 				StdOut.println(team + " is not eliminated.");
+//				if (division.certificateOfElimination(team) == null);
+//					StdOut.println("The certificate is null!");
 			}
 		}
 	}
