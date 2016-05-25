@@ -1,3 +1,4 @@
+package boggle;
 /******************************************************************************
  *  Compilation:  javac BoggleGame.java
  *  Execution:    java BoggleGame [M N]
@@ -24,7 +25,6 @@
  *
  ******************************************************************************/
 
-package boggle;
 
 import java.awt.Color;
 import java.awt.Container;
