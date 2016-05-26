@@ -1,29 +1,4 @@
-package boggle;
-/******************************************************************************
- *  Compilation:  javac BoggleGame.java
- *  Execution:    java BoggleGame [M N]
- *  Dependencies: BoggleSolver.java BoggleBoard.java 
- *  Author:       Matthew Drabick
- *
- *  GUI for the boggle solver. Pits the user against a computer opponent
- *  of various difficulties. Can be launched from the command line, where 
- *  the default size of the board for that game must be specified. 
- *  
- *  To add: Way to change the size of the board from inside the game
- *
- *  % javac BoggleGame.java
- *  
- *  % java BoggleGame 
- *
- *  % java -Xmx300m BoggleGame 3 7
- *  
- *  Report bugs to: wayne@princeton.edu, CC mdrabick@princeton.edu
- *
- *  Note: expect some compiler warning with Java 7 because
- *  javax.swing.JList is a parameterized type in Java 7 but not
- *  in Java 6.
- *
- ******************************************************************************/
+
 
 
 import java.awt.Color;

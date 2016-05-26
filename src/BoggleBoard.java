@@ -1,12 +1,4 @@
-package boggle;
-/******************************************************************************
- *  Compilation:  javac BoggleBoard.java
- *  Execution:    java  BoggleBoard
- *  Dependencies: StdRandom.java In.java StdOut.java
- *
- *  A data type for Boggle boards.
- *
- ******************************************************************************/
+
 
 
 import edu.princeton.cs.algs4.In;

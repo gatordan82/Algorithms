@@ -1,4 +1,4 @@
-package boggle;
+
 
 
 import edu.princeton.cs.algs4.Queue;

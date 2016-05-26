@@ -1,9 +1,8 @@
-package boggle;
+
 
 
 import java.util.HashSet;
 
-import boggle.TrieSTBoggle.Node;
 import edu.princeton.cs.algs4.Bag;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.SeparateChainingHashST;
@@ -27,9 +26,10 @@ public class BoggleSolver
 	 */
 	public BoggleSolver(String[] dictionary)
 	{
+		String[] dictArray = dictionary.clone();
 		dict = new TrieSTBoggle<String>();
-		for (int i = 0; i < dictionary.length; i++)
-			dict.put(dictionary[i], dictionary[i]);
+		for (String word : dictArray)
+			dict.put(word, word);
 	}
 	
 	/**
@@ -41,16 +41,14 @@ public class BoggleSolver
 	{
 		validWords = new HashSet<String>();
 		
-		M = board.rows();
-		N = board.cols();
-		mapLetters(board, M, N);
-		buildGraph(M, N);
-		for (int i = 0; i < M * N; i++)
+		int rows = board.rows();
+		int cols = board.cols();
+		mapLetters(board, rows, cols);
+		buildGraph(rows, cols);
+		for (int i = 0; i < rows * cols; i++)
 		{
 			char currentLetter = letters.get(i);
-			Node current = dict.root().next[currentLetter - asciiShift];
-			if (i == M * N - 1) 
-				System.out.println("Starting last letter");
+			TrieSTBoggle.Node current = dict.root().next[currentLetter - asciiShift];
 			dfs(i, current);
 		}
 		
@@ -106,15 +104,17 @@ public class BoggleSolver
 		}
 	}
 	
-	private void dfs(int x, Node current)
+	private void dfs(int x, TrieSTBoggle.Node current)
 	{
 		boolean[] marked = new boolean[M * N];
 		doDFS(marked, x, current);
 	}
 	
-	private void doDFS(boolean[] marked, int x, Node current)
+	private void doDFS(boolean[] marked, int x, TrieSTBoggle.Node current)
 	{
 		
+		if (letters.get(x) == 'Q')
+			current = current.next['U' - asciiShift];
 		
 		String currentWord = (String) current.val;
 		if (current.val != null  
@@ -124,18 +124,14 @@ public class BoggleSolver
 		{
 				validWords.add(currentWord);
 		}
+
 		
-		if (letters.get(x) == 'Q')
-			current = current.next['U' - asciiShift];
-		
-		for (Integer i : adj[x])
+		for (int i : adj[x])
 		{	
 			char nextLetter = letters.get(i);
-//			System.out.println("Checking letter " + nextLetter + ", " + i);
 			if (!marked[i] && current.next[nextLetter - asciiShift] != null)
 			{
-					Node nextNode = current.next[nextLetter - asciiShift];
-//					System.out.println("Next recursive level, with letter " + nextLetter);
+					TrieSTBoggle.Node nextNode = current.next[nextLetter - asciiShift];
 					marked[x] = true;
 					doDFS(marked, i, nextNode);
 			}
@@ -180,8 +176,16 @@ public class BoggleSolver
 		String[] dictionary = in.readAllStrings();
 		
 		BoggleSolver solver = new BoggleSolver(dictionary);
+		String board1File = ".\\resources\\boggle\\board-points13464.txt";
+		String board2File = ".\\resources\\boggle\\board-points26539.txt";
+		runBoard(solver, board1File);
+		runBoard(solver, board2File);
 
-		BoggleBoard board   = new BoggleBoard(args[1]);
+	}
+	
+	private static void runBoard(BoggleSolver solver, String boardFile)
+	{
+		BoggleBoard board   = new BoggleBoard(boardFile);
 		int score = 0;
 		long startTime = System.currentTimeMillis();
 		for (String word : solver.getAllValidWords(board))
