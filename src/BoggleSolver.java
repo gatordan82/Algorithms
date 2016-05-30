@@ -48,8 +48,10 @@ public class BoggleSolver
 		for (int i = 0; i < rows * cols; i++)
 		{
 			char currentLetter = letters.get(i);
+//			System.out.println(currentLetter);
 			TrieSTBoggle.Node current = dict.root().next[currentLetter - asciiShift];
-			dfs(i, current);
+//			if (current != null)
+				dfs(i, current);
 		}
 		
 		return validWords;		
@@ -61,7 +63,7 @@ public class BoggleSolver
 		for (int i = 0; i < rows; i++)
 			for (int j = 0; j < cols; j++)
 			{
-				int x = i * rows + j;
+				int x = i * cols + j;
 				letters.put(x, board.getLetter(i, j));
 			}
 	}
@@ -69,7 +71,7 @@ public class BoggleSolver
 	@SuppressWarnings("unchecked")
 	private void buildGraph(int rows, int cols)
 	{
-		if (adj != null && rows == M && rows == N) return;
+		if (adj != null && rows == M && cols == N) return;
 		
 		M = rows;
 		N = cols;
@@ -115,6 +117,7 @@ public class BoggleSolver
 		
 		if (letters.get(x) == 'Q')
 			current = current.next['U' - asciiShift];
+		if (current == null) return;
 		
 		String currentWord = (String) current.val;
 		if (current.val != null  
@@ -176,11 +179,49 @@ public class BoggleSolver
 		String[] dictionary = in.readAllStrings();
 		
 		BoggleSolver solver = new BoggleSolver(dictionary);
-		String board1File = ".\\resources\\boggle\\board-points13464.txt";
-		String board2File = ".\\resources\\boggle\\board-points26539.txt";
+		String board1File = ".\\resources\\boggle\\board-antidisestablishmentarianisms.txt";
+		String board2File = ".\\resources\\boggle\\board-dichlorodiphenyltrichloroethanes.txt";
+		String board3File = ".\\resources\\boggle\\board-aqua.txt";
+		String board4File = ".\\resources\\boggle\\board-points26539.txt";
 		runBoard(solver, board1File);
 		runBoard(solver, board2File);
+		runBoard(solver, board3File);
+		runBoard(solver, board4File);
+		for (int i = 0; i < 50; i++)
+			runBoard(solver, 1, 2);
 
+	}
+	
+	private static void runBoard(BoggleSolver solver)
+	{
+		BoggleBoard board   = new BoggleBoard();
+		int score = 0;
+		long startTime = System.currentTimeMillis();
+		for (String word : solver.getAllValidWords(board))
+		{
+//			StdOut.println(word);
+			score += solver.scoreOf(word);
+		}
+		StdOut.println("Score = " + score);
+		long endTime = System.currentTimeMillis();
+		long totalTime = endTime - startTime;
+		System.out.println("Time to execute: " + totalTime);
+	}
+	
+	private static void runBoard(BoggleSolver solver, int rows, int cols)
+	{
+		BoggleBoard board   = new BoggleBoard(rows, cols);
+		int score = 0;
+		long startTime = System.currentTimeMillis();
+		for (String word : solver.getAllValidWords(board))
+		{
+//			StdOut.println(word);
+			score += solver.scoreOf(word);
+		}
+		StdOut.println("Score = " + score);
+		long endTime = System.currentTimeMillis();
+		long totalTime = endTime - startTime;
+		System.out.println("Time to execute: " + totalTime);
 	}
 	
 	private static void runBoard(BoggleSolver solver, String boardFile)
@@ -190,7 +231,7 @@ public class BoggleSolver
 		long startTime = System.currentTimeMillis();
 		for (String word : solver.getAllValidWords(board))
 		{
-			StdOut.println(word);
+//			StdOut.println(word);
 			score += solver.scoreOf(word);
 		}
 		StdOut.println("Score = " + score);
